@@ -2,29 +2,48 @@ package org.itstep;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Menu {
-    private String name;
-    private List<Menu> menuList = new ArrayList<>();
-    private Action<Context> action;
+    private String title;
+    private List<Menu> menuList;
+    private Action action;
 
-    public Menu(String name, Action<Context> action) {
-        this.name = name;
-        this.action = action;
+    public Menu(String title) {
+        this(title, null);
     }
 
-    public Action<Context> getAction() {
-        return action;
+    public Menu(String name, Action action) {
+        this.title = name;
+        this.action = action;
+        this.menuList = new ArrayList<>();
     }
 
     public List<Menu> getMenuList() {
         return menuList;
     }
 
-    public void addSubMenu(Menu menu) { menuList.add(menu);}
+    public Menu add(Menu menu) {
+        this.menuList.add(menu);
+        return menu;
+    }
+
+    public void show() {
+        if (action != null) {
+            action.doIt();
+        } else {
+            System.out.println(title);
+            for (int i = 0; i < this.menuList.size(); i++) {
+                System.out.println((i + 1) + ". " + this.menuList.get(i).toString());
+            }
+            Scanner scanner = new Scanner(System.in);
+            int cm = scanner.nextInt() - 1;
+            menuList.get(cm).show();
+        }
+    }
 
     @Override
     public String toString() {
-        return name;
+        return title;
     }
 }

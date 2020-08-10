@@ -1,5 +1,6 @@
 package org.itstep;
 
-public interface Action<T> {
-    void doIt(T context);
+@FunctionalInterface
+public interface Action {
+    void doIt();
 }

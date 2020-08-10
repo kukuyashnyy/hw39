@@ -1,33 +1,81 @@
 package org.itstep;
 
-/**
- * Hello world!
- *
- */
+import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class App1
 {
     public static void main( String[] args )
     {
-        Menu mainMenu = new Menu("Main", context -> {
-            System.out.println("Test" + context);}
-            );
+        AtomicBoolean exit = new AtomicBoolean(true);
 
-//            for (int i = 0; i < mainMenu.getMenuList().size(); i++) {
-//                System.out.print(i+1 + ". ");
-//                System.out.println(mainMenu.getMenuList().get(i).toString());
-//            }
+        Scanner scaner = new Scanner(System.in);
 
-        mainMenu.addSubMenu(new Menu("Полная распечатка базы данных.", null));
-        mainMenu.addSubMenu(new Menu("Распечатка данных по конкретному коду.", null));
-        mainMenu.addSubMenu(new Menu("Распечатка данных по конкретному типу штрафа.", null));
-        mainMenu.addSubMenu(new Menu("Распечатка данных по конкретному городу.", null));
-        mainMenu.addSubMenu(new Menu("Добавление нового человека с информацией о нем.", null));
-        mainMenu.addSubMenu(new Menu("Добавление новых штрафов для уже существующей записи.", null));
-        mainMenu.addSubMenu(new Menu("Удаление штрафа.", null));
-        mainMenu.addSubMenu(new Menu("Замена информации о человеке.", null));
-        mainMenu.addSubMenu(new Menu("Замена информации о штрафах.", null));
-        mainMenu.addSubMenu(new Menu("Выход.", null));
+        Menu mainMenu = new Menu("Main menu:");
 
-        mainMenu.getAction();
+        mainMenu.add(new Menu("Полная распечатка базы данных", () -> {
+            System.out.println("System.out.println(taxDB)");
+            mainMenu.show();
+        }));
+
+        mainMenu.add(new Menu("Распечатка данных по конкретному коду.", () -> {
+            System.out.println("Введите идентификационный номер.");
+            System.out.println("printIdInfo(taxDB, scanner.nextInt())");
+            mainMenu.show();
+        }));
+
+        mainMenu.add(new Menu("Распечатка данных по конкретному типу штрафа.", () -> {
+            System.out.println("Введите тип штрафа.");
+            System.out.println("printTaxesByType(taxDB, new Scanner(System.in).nextLine())");
+            mainMenu.show();
+        }));
+
+        mainMenu.add(new Menu("Распечатка данных по конкретному городу.", () -> {
+            System.out.println("Введите навание города.");
+            System.out.println("printTaxesByCity(taxDB, new Scanner(System.in).nextLine())");
+            mainMenu.show();
+        }));
+
+        mainMenu.add(new Menu("Добавление нового человека с информацией о нем.", () -> {
+            System.out.println("Введите идентификационный номер.");
+            System.out.println("addNewHuman(taxDB, scanner.nextInt())");
+            mainMenu.show();
+        }));
+
+        mainMenu.add(new Menu("Добавление новых штрафов для уже существующей записи.", () -> {
+            System.out.println("Введите иденцификационный номер.");
+            System.out.println("addNewTax(taxDB, scanner.nextInt())");
+            mainMenu.show();
+        }));
+
+        mainMenu.add(new Menu("Удаление штрафа.", () -> {
+            System.out.println("Введите иденцификационный номер.");
+            System.out.println("deleteTax(taxDB, scanner.nextInt())");
+            mainMenu.show();
+        }));
+
+        mainMenu.add(new Menu("Замена информации о человеке.", () -> {
+            System.out.println("Введите идентификационный номер.");
+            System.out.println("changeHumanInfo(taxDB, scanner.nextInt())");
+            mainMenu.show();
+        }));
+
+        mainMenu.add(new Menu("Замена информации о штрафах.", () -> {
+            System.out.println("Введите иденцификационный номер.");
+            System.out.println("changeTaxInfo(taxDB, scanner.nextInt())");
+            mainMenu.show();
+        }));
+
+        mainMenu.add(new Menu("Test sub menu."))
+        .add(new Menu("Sub sub menu", () -> {
+            System.out.println("This is sub sub menu");
+            mainMenu.show();
+        }));;
+
+        mainMenu.add(new Menu("Выход.", () -> exit.set(false)));
+
+        do {
+            mainMenu.show();
+        } while (exit.get());
     }
 }
